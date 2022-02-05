@@ -12,18 +12,23 @@ logging:
 
 spring:
   jpa:
-    generate-ddl:
+#    generate-ddl:
+    show-sql: true
+    hibernate:
+      format_sql: true
+      ddl-auto: create
+
   # 자동 reload
   devtools:
     livereload:
       enabled: true
   # DB 설정
   datasource:
-    driver-class-name:
-    jdbc-url: jdbc:mysql://localhost:3306/video?serverTimezone=UTC&allowPublicKeyRetrieval=true
+    driver-class-name: org.mariadb.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost:3306/db_padak?serverTimezone=UTC&characterEncoding=UTF-8
     hikari:
-      username:
-      password:
+      username: root
+      password: root
   # Security
   security:
     oauth2:
