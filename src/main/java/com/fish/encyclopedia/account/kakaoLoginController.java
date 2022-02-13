@@ -1,4 +1,4 @@
-package com.fish.encyclopedia.OAuth2.controller;
+package com.fish.encyclopedia.account;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

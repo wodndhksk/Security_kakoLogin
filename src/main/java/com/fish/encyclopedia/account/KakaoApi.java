@@ -1,11 +1,8 @@
-package com.fish.encyclopedia.OAuth2.controller;
+package com.fish.encyclopedia.account;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Value;
-import springfox.documentation.spring.web.json.Json;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,7 +14,7 @@ import java.util.HashMap;
 
 public class KakaoApi {
 
-    @Value("${RESTAPI.kakao.LoginKey}")
+    @Value("${restapi.kakao.loginkey}")
     private String KAKAO_API_KEY;
 
     @Value("${HOME.URL}")
@@ -25,6 +22,9 @@ public class KakaoApi {
 
 
     public String getAccessToken(String code) {
+        System.out.println("KAKAO_API_KEY : " + KAKAO_API_KEY);
+        System.out.println("URL : " + URL);
+
         String accessToken = "";
         String refreshToken = "";
         String reqURL = "https://kauth.kakao.com/oauth/token";
@@ -77,7 +77,7 @@ public class KakaoApi {
     public HashMap<String, Object> getUserInfo(String accessToken) {
 
         HashMap<String, Object> userInfo = new HashMap<>();
-        String reqUrl = "https://kauth.kakao.com/v1/user/unlink";
+        String reqUrl = "https://kapi.kakao.com/v2/user/me";
         try{
             URL url = new URL(reqUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -94,7 +94,7 @@ public class KakaoApi {
             while((line = br.readLine()) != null){
                 result += line;
             }
-//            System.out.println("responseBody : " + result);
+            System.out.println("responseBody : " + result);
 
             JsonObject parser = JsonParser.parseString(result).getAsJsonObject();
             System.out.println("parser : " + parser);

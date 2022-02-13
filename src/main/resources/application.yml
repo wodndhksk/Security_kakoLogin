@@ -8,9 +8,9 @@ server:
 HOME:
   URL: http://localhost:8080/login
 
-RESTAPI:
+restapi:
   kakao:
-    LoginKey: 9446266dbd72ad66ccc3c0f9ddf17cd7
+    loginkey: 9446266dbd72ad66ccc3c0f9ddf17cd7
 
 spring:
   thymeleaf:
