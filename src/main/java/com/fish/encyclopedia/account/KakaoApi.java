@@ -140,4 +140,34 @@ public class KakaoApi {
         }
 
     }
+
+    public void disconnection(String accessToken) {
+        String reqURL = "https://kapi.kakao.com/v1/user/unlink";
+
+        try {
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Authorization", "Bearer" + accessToken);
+
+            int responseCode = conn.getResponseCode();
+            System.out.println("kakaoLogout_responseCode : " + responseCode);
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+            String line = "";
+            String result = "";
+
+            while((line = br.readLine()) != null)
+                result += line;
+
+            System.out.println(result);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+
 }
