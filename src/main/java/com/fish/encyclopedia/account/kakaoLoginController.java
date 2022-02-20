@@ -1,5 +1,8 @@
 package com.fish.encyclopedia.account;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,10 +12,18 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
 @Controller
+@Slf4j
+@RequiredArgsConstructor
 public class kakaoLoginController {
 
-    KakaoApi kakaoApi = new KakaoApi();
+    private final KakaoApi kakaoApi;
 
+    @RequestMapping(value = "/")
+    public String index() {
+        ModelAndView mv = new ModelAndView();
+
+        return "index";
+    }
     @RequestMapping(value = "/login")
     public ModelAndView login(@RequestParam("code") String code, HttpSession session) {
         ModelAndView mv = new ModelAndView();
