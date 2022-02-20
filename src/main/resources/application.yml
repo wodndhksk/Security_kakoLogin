@@ -8,9 +8,20 @@ server:
 HOME:
   URL: http://localhost:8080/login
 
-restapi:
-  kakao:
-    loginkey: 9446266dbd72ad66ccc3c0f9ddf17cd7
+car:
+  name: hyundai
+
+# 카카오 로그인 API
+Kakao:
+  client_id: cc55a9f1d718f1adfc4786e46a20f00c
+  grant_type: authorization_code
+
+  access_token: https://kauth.kakao.com/oauth/token
+  user_info: https://kapi.kakao.com/v2/user/me
+  logout: https://kapi.kakao.com/v1/user/logout
+  disconnect: https://kapi.kakao.com/v1/user/unlink
+  redirect_uri: http://localhost:8080/login
+
 
 spring:
   thymeleaf:
@@ -39,7 +50,7 @@ spring:
       username: root
       password: root
 
-  # Security
+  # Security (아직 안씀)
   security:
     oauth2:
       client:
