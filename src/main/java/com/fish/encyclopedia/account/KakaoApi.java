@@ -2,7 +2,10 @@ package com.fish.encyclopedia.account;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,22 +15,37 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
+@Service
+@RequiredArgsConstructor
+@Slf4j
 public class KakaoApi {
 
-    @Value("${restapi.kakao.loginkey}")
-    private String KAKAO_API_KEY;
+    @Value("${Kakao.client_id}")
+    private String CLIEND_ID;
 
-    @Value("${HOME.URL}")
-    private String URL;
+    @Value("${Kakao.grant_type}")
+    private String GRANT_TYPE;
 
+    @Value("${Kakao.access_token}")
+    private String ACCESS_TOKEN;
+
+    @Value("${Kakao.user_info}")
+    private String USER_INFO;
+
+    @Value("${Kakao.logout}")
+    private String LOGOUT_URL;
+
+    @Value("${Kakao.disconnect}")
+    private String DISCONNECT_URL;
+
+    @Value("${Kakao.redirect_uri}")
+    private String REDIRECT_URI;
 
     public String getAccessToken(String code) {
-        System.out.println("KAKAO_API_KEY : " + KAKAO_API_KEY);
-        System.out.println("URL : " + URL);
 
         String accessToken = "";
         String refreshToken = "";
-        String reqURL = "https://kauth.kakao.com/oauth/token";
+        String reqURL = ACCESS_TOKEN;
 
         try {
             URL url = new URL(reqURL);
@@ -37,9 +55,9 @@ public class KakaoApi {
 
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
-            sb.append("grant_type=authorization_code");
-            sb.append("&client_id=cc55a9f1d718f1adfc4786e46a20f00c");// 내 api key
-            sb.append("&redirect_uri=http://localhost:8080/login");
+            sb.append("grant_type="+GRANT_TYPE);
+            sb.append("&client_id="+CLIEND_ID);// 내 api key
+            sb.append("&redirect_uri="+REDIRECT_URI);
             sb.append("&code="+code);
 
             bw.write(sb.toString());
@@ -77,7 +95,7 @@ public class KakaoApi {
     public HashMap<String, Object> getUserInfo(String accessToken) {
 
         HashMap<String, Object> userInfo = new HashMap<>();
-        String reqUrl = "https://kapi.kakao.com/v2/user/me";
+        String reqUrl = USER_INFO;
         try{
             URL url = new URL(reqUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -114,7 +132,7 @@ public class KakaoApi {
     }
 
     public void kakaoLogout(String accessToken) {
-        String reqURL = "https://kapi.kakao.com/v1/user/logout";
+        String reqURL = LOGOUT_URL;
 
         try {
             URL url = new URL(reqURL);
@@ -142,7 +160,7 @@ public class KakaoApi {
     }
 
     public void disconnection(String accessToken) {
-        String reqURL = "https://kapi.kakao.com/v1/user/unlink";
+        String reqURL = DISCONNECT_URL;
 
         try {
             URL url = new URL(reqURL);
