@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @Table(name = "tbl_fishing_collection")
-public class UserFishingCollection {
+public class UserFishingCollection extends TimeDefaultEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

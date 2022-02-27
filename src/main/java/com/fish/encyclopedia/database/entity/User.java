@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @AllArgsConstructor
 @Table(name = "tbl_user")
-public class User {
+public class User extends TimeDefaultEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

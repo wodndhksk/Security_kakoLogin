@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @Table(name = "tbl_fishing_master")
-public class FishingMaster {
+public class FishingMaster extends TimeDefaultEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
