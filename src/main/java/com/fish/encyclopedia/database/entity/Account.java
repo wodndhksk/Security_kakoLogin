@@ -1,24 +1,27 @@
-//package com.fish.encyclopedia.OAuth2.domain;
-//
-//import lombok.Getter;
-//import lombok.Setter;
-//import org.springframework.boot.context.properties.ConfigurationProperties;
-//import org.springframework.stereotype.Component;
-//
-//import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.Id;
-//
-//@Component
-//@Entity
-//@Getter
-//@Setter
-//@ConfigurationProperties(prefix = "test-property")
-//public class Account {
-//
-//    @Id
-//    @GeneratedValue
-//    private String id;
-//    private String username;
-//    private String password;
-//}
+package com.fish.encyclopedia.database.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+
+@Entity
+@Getter
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
+public class Account {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private Long id;
+
+    @Column
+    private String username;
+
+    @Column
+    private String password;
+}
