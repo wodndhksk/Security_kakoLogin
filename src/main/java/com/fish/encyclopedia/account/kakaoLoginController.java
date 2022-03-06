@@ -23,6 +23,13 @@ public class kakaoLoginController {
 
         return "index";
     }
+
+    /**
+     * 카카오 로그인
+     * @param code
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/login")
     public ModelAndView login(@RequestParam("code") String code, HttpSession session) {
         ModelAndView mv = new ModelAndView();
@@ -35,12 +42,20 @@ public class kakaoLoginController {
         if(userInfo.get("email") != null){
             session.setAttribute("userId", userInfo.get("email"));
             session.setAttribute("access_token", accessToken);
+            System.out.println("이메일 toString : " + userInfo.get("email").toString());
+            kakaoApi.checkUserEmail(userInfo.get("email").toString());
+
         }
         mv.addObject("userId", userInfo.get("email"));
         mv.setViewName("index");
         return mv;
     }
 
+    /**
+     * 카카오 로그아웃
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/logout")
     public ModelAndView logout(HttpSession session){
         ModelAndView mv = new ModelAndView();
@@ -53,6 +68,11 @@ public class kakaoLoginController {
         return mv;
     }
 
+    /**
+     * 카카오 연결끊기 (미구현)
+     * @param code
+     * @return
+     */
     @RequestMapping(value = "/disconnect")
     public ModelAndView disconnect (@RequestParam("code") String code){
         ModelAndView mv = new ModelAndView();
