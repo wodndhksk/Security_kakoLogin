@@ -74,11 +74,9 @@ public class kakaoLoginController {
      * @return
      */
     @RequestMapping(value = "/disconnect")
-    public ModelAndView disconnect (@RequestParam("code") String code){
+    public ModelAndView disconnect (@RequestParam("code") String code, HttpSession session){
         ModelAndView mv = new ModelAndView();
-        String accessToken = kakaoApi.getAccessToken(code);
-
-
+        kakaoApi.disconnection((String)session.getAttribute("access_token"));
         mv.setViewName("index");
         return mv;
     }

@@ -172,7 +172,7 @@ public class KakaoApi {
             URL url = new URL(DISCONNECT_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
-            conn.setRequestProperty("Authorization", "Bearer" + accessToken);
+            conn.setRequestProperty("Authorization", "Bearer " + accessToken);
 
             int responseCode = conn.getResponseCode();
             System.out.println("kakaoLogout_responseCode : " + responseCode);
