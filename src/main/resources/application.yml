@@ -24,18 +24,21 @@ Kakao:
 
 
 spring:
+  # https://www.inflearn.com/questions/230160
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
     mode: HTML5
 
-
   jpa:
-  #generate-ddl:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
     hibernate:
-      format_sql: true
-      ddl-auto: create
+      ddl-auto: create-drop
 
   # 자동 reload
   devtools:
@@ -44,11 +47,10 @@ spring:
 
   # DB 설정
   datasource:
+    username: root
+    password: 1234
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/db_padak?serverTimezone=UTC&characterEncoding=UTF-8
-    hikari:
-      username: root
-      password: root
+    url: jdbc:mariadb://localhost:3306/db_padak?serverTimezone=UTC&characterEncoding=UTF-8
 
   # Security (아직 안씀)
   security:
