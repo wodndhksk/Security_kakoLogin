@@ -14,8 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@Table(name = "tbl_fishing_collection")
-public class UserFishingCollection extends TimeDefaultEntity {
+@Table(name = "tbl_account_fishing_collection")
+public class AccountFishingCollection extends TimeDefaultEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +23,8 @@ public class UserFishingCollection extends TimeDefaultEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private Account account;
 
     @ManyToOne
     @JoinColumn(name = "fishing_master_id", referencedColumnName = "id")
@@ -48,6 +48,6 @@ public class UserFishingCollection extends TimeDefaultEntity {
     @Column
     private Integer fishWeight;
 
-    @OneToMany(mappedBy = "userFishingCollection")
-    private List<UserFishingCollectionAttachment> userFishingCollectionAttachments = new ArrayList<>();
+    @OneToMany(mappedBy = "accountFishingCollection")
+    private List<AccountFishingCollectionAttachment> accountFishingCollectionAttachments = new ArrayList<>();
 }

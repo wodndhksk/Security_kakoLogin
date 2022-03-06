@@ -13,38 +13,30 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@Table(name = "tbl_user")
-public class User extends TimeDefaultEntity {
+@Table(name = "tbl_account_fishing_collection_attachment")
+public class AccountFishingCollectionAttachment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
-    @Column
-    @NotBlank
-    private String username;
+    @ManyToOne
+    @JoinColumn(name = "account_fishing_collection_id", referencedColumnName = "id")
+    private AccountFishingCollection accountFishingCollection;
 
     @Column
     @NotBlank
-    private String phone;
+    private String url;
+
+    @Column
+    private String thumbnailUrl;
+
+    @Column
+    @NotBlank
+    private String type;
 
     @Column
     @NotBlank
     private String name;
-
-    @Column
-    @NotBlank
-    private String email;
-
-    @Column
-    @NotBlank
-    @Enumerated(EnumType.STRING)
-    private SocialType socialType;
-
-    @Column(length = 2050)
-    private String thumbnailImageUrl;
-
-    @Column(length = 2050)
-    private String ProfileImageUrl;
 }

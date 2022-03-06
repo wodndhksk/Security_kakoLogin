@@ -12,8 +12,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@Table(name = "tbl_user_favorite_fishing")
-public class UserFavoriteFishing extends TimeDefaultEntity {
+@Table(name = "tbl_account_favorite_fishing")
+public class AccountFavoriteFishing extends TimeDefaultEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +21,8 @@ public class UserFavoriteFishing extends TimeDefaultEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private Account account;
 
     @ManyToOne
     @JoinColumn(name = "fishing_master_id", referencedColumnName = "id")
