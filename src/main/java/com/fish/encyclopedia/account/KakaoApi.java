@@ -4,7 +4,7 @@ import com.fish.encyclopedia.database.entity.Account;
 import com.fish.encyclopedia.database.repository.AccountRepository;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import lombok.Builder;
+import com.google.gson.JsonPrimitive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,7 +49,7 @@ public class KakaoApi {
     public String getAccessToken(String code) {
 
         String accessToken = "";
-        String refreshToken = "";
+        String refreshToken;
         String reqURL = ACCESS_TOKEN;
 
         try {
@@ -59,13 +59,12 @@ public class KakaoApi {
             conn.setDoOutput(true);
 
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-            StringBuilder sb = new StringBuilder();
-            sb.append("grant_type="+GRANT_TYPE);
-            sb.append("&client_id="+CLIEND_ID);// 내 api key
-            sb.append("&redirect_uri="+REDIRECT_URI);
-            sb.append("&code="+code);
+            String sb = "grant_type=" + GRANT_TYPE +
+                    "&client_id=" + CLIEND_ID +// 내 api key
+                    "&redirect_uri=" + REDIRECT_URI +
+                    "&code=" + code;
 
-            bw.write(sb.toString());
+            bw.write(sb);
             bw.flush();
 
             int responseCode = conn.getResponseCode();
@@ -73,15 +72,15 @@ public class KakaoApi {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            String line = "";
-            String result = "";
+            String line;
+            StringBuilder result = new StringBuilder();
 
             while((line = br.readLine()) != null)
-                result += line;
+                result.append(line);
 
             System.out.println("response body : " + result);
 
-            JsonObject parser = JsonParser.parseString(result).getAsJsonObject();
+            JsonObject parser = JsonParser.parseString(result.toString()).getAsJsonObject();
             accessToken= parser.getAsJsonObject().getAsJsonPrimitive("access_token").getAsString();
             refreshToken= parser.getAsJsonObject().getAsJsonPrimitive("refresh_token").getAsString();
 
@@ -91,7 +90,7 @@ public class KakaoApi {
             br.close();
             bw.close();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return accessToken;
@@ -112,36 +111,39 @@ public class KakaoApi {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            String line = "";
-            String result = "";
+            String line;
+            StringBuilder result = new StringBuilder();
             while((line = br.readLine()) != null){
-                result += line;
+                result.append(line);
             }
             System.out.println("responseBody : " + result);
 
-            JsonObject parser = JsonParser.parseString(result).getAsJsonObject();
+            JsonObject parser = JsonParser.parseString(result.toString()).getAsJsonObject();
             System.out.println("parser : " + parser);
             JsonObject properties = parser.getAsJsonObject("properties");
             JsonObject kakao_account = parser.getAsJsonObject("kakao_account");
 
-            String nickName = properties.getAsJsonObject().getAsJsonPrimitive("nickname").getAsString();
-            String email = kakao_account.getAsJsonObject().getAsJsonPrimitive("email").getAsString();
+            JsonPrimitive nicknameJson = properties.getAsJsonObject().getAsJsonPrimitive("nickname");
+            if (nicknameJson != null) {
+                String nickName = nicknameJson.getAsString();
+                userInfo.put("nickname", nickName);
+            }
 
-            System.out.println("email : " + email);
-            userInfo.put("nickname", nickName);
-            userInfo.put("email", email);
+            JsonPrimitive emailJson = kakao_account.getAsJsonObject().getAsJsonPrimitive("email");
+            if (emailJson != null) {
+                String email = emailJson.getAsString();
+                userInfo.put("email", email);
+            }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return userInfo;
     }
 
     public void kakaoLogout(String accessToken) {
-        String reqURL = LOGOUT_URL;
-
         try {
-            URL url = new URL(reqURL);
+            URL url = new URL(LOGOUT_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Authorization", "Bearer" + accessToken);
@@ -151,11 +153,11 @@ public class KakaoApi {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            String line = "";
-            String result = "";
+            String line;
+            StringBuilder result = new StringBuilder();
 
             while((line = br.readLine()) != null)
-                result += line;
+                result.append(line);
 
             System.out.println(result);
 
@@ -166,10 +168,8 @@ public class KakaoApi {
     }
 
     public void disconnection(String accessToken) {
-        String reqURL = DISCONNECT_URL;
-
         try {
-            URL url = new URL(reqURL);
+            URL url = new URL(DISCONNECT_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Authorization", "Bearer" + accessToken);
@@ -179,18 +179,17 @@ public class KakaoApi {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-            String line = "";
-            String result = "";
+            String line;
+            StringBuilder result = new StringBuilder();
 
             while((line = br.readLine()) != null)
-                result += line;
+                result.append(line);
 
             System.out.println(result);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /**
