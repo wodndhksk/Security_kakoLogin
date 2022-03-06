@@ -1,7 +1,10 @@
 package com.fish.encyclopedia.account;
 
+import com.fish.encyclopedia.database.entity.Account;
+import com.fish.encyclopedia.database.repository.AccountRepository;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +43,8 @@ public class KakaoApi {
 
     @Value("${Kakao.redirect_uri}")
     private String REDIRECT_URI;
+
+    private final AccountRepository accountRepository;
 
     public String getAccessToken(String code) {
 
@@ -122,6 +127,7 @@ public class KakaoApi {
             String nickName = properties.getAsJsonObject().getAsJsonPrimitive("nickname").getAsString();
             String email = kakao_account.getAsJsonObject().getAsJsonPrimitive("email").getAsString();
 
+            System.out.println("email : " + email);
             userInfo.put("nickname", nickName);
             userInfo.put("email", email);
 
@@ -187,5 +193,18 @@ public class KakaoApi {
 
     }
 
+    /**
+     * 신규 혹은 가입된 회원인지 확인
+     * @param email
+     */
+    public void checkUserEmail(String email){
+
+        Account kakaoUser = accountRepository.findByEmail(email).orElse(null);
+
+        if(kakaoUser == null){
+            Account account = Account.builder().email(email).build();
+            accountRepository.save(account);
+        }
+    }
 
 }
