@@ -23,7 +23,7 @@ public class Account extends TimeDefaultEntity {
 
     @Column
     @NotBlank
-    private String username;
+    private String nickname;
 
     @Column
     @NotBlank
@@ -36,6 +36,9 @@ public class Account extends TimeDefaultEntity {
     @Column
     @NotBlank
     private String email;
+
+    @Column
+    private String oauthNickname;
 
     @Column
     @NotBlank
