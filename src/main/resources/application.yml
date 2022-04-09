@@ -48,7 +48,7 @@ spring:
   # DB 설정
   datasource:
     username: root
-    password: 1234
+    password: root
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/db_padak?serverTimezone=UTC&characterEncoding=UTF-8
 

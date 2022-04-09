@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -50,4 +51,13 @@ public class Account extends TimeDefaultEntity {
 
     @Column(length = 2050)
     private String ProfileImageUrl;
+
+    @Column
+    @NotBlank
+    private String password;
+
+    @Column
+    @NotBlank
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
 }
